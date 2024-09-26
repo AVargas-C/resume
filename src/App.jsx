@@ -26,7 +26,7 @@ function App() {
         download="ArturoVargasCuevas_CV_English.pdf" // Trigger download with a specific file name
         sx={{ mt: 2 }}
       >
-        Descargar CV
+        Descargar CV en Inglés
       </Button>
     </Container>
   );

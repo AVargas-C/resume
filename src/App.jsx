@@ -6,11 +6,14 @@ import Typography from '@mui/material/Typography';
 function App() {
   const handleDownload = () => {
     if (window.gtag) {
+      console.log('Google Analytics event triggered');
       window.gtag('event', 'download', {
         event_category: 'Resume',
         event_label: 'CV_English.pdf',
         value: 1,
       });
+    } else {
+      console.log('Google Analytics not loaded');
     }
   };
 

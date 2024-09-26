@@ -22,7 +22,7 @@ function App() {
       <Button
         variant="contained"
         color="primary"
-        href="./public/CV_English.pdf" // Link to your PDF file in the public folder
+        href="/resume/CV_English.pdf" // Link to your PDF file in the public folder
         download="ArturoVargasCuevas_CV_English.pdf" // Trigger download with a specific file name
         sx={{ mt: 2 }}
       >

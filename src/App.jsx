@@ -1,9 +1,19 @@
+import React from 'react';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 function App() {
+  const handleDownload = () => {
+    if (window.gtag) {
+      window.gtag('event', 'download', {
+        event_category: 'Resume',
+        event_label: 'CV_English.pdf',
+        value: 1,
+      });
+    }
+  };
+
   return (
     <Container
       maxWidth="sm"
@@ -22,8 +32,9 @@ function App() {
       <Button
         variant="contained"
         color="primary"
-        href="/resume/CV_English.pdf" // Link to your PDF file in the public folder
-        download="ArturoVargasCuevas_CV_English.pdf" // Trigger download with a specific file name
+        href="/resume/CV_English.pdf"
+        download="ArturoVargasCuevas_CV_English.pdf"
+        onClick={handleDownload} // Call handleDownload on click
         sx={{ mt: 2 }}
       >
         Descargar CV en Inglés

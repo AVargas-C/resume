@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import { Box, Typography, IconButton, ThemeProvider } from '@mui/material';
+import { Box, Typography, IconButton, ThemeProvider, useMediaQuery } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Icon } from '@iconify/react';
-import theme from './theme';
+import theme from './theme'; // Import the theme
 
 // Configuration object for languages
 const languagesConfig = {
@@ -31,81 +31,147 @@ const languagesConfig = {
     },
 };
 
-
-
-
-
-
-
 const App = () => {
-    // State to handle the current language, default to English (en)
     const [selectedLanguage, setSelectedLanguage] = useState('en');
     const currentLanguageData = languagesConfig[selectedLanguage];
+
     const handleLanguageChange = (lang) => {
         setSelectedLanguage(lang);
     };
 
+    // Media query to check for smartphone size
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <ThemeProvider theme={theme}>
             <div>
-                {/* Topbar */}
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '8px 16px',
-                        backgroundColor: theme.palette.background.default,
-                        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-                        position: 'fixed',
-                        top: 0,
-                        zIndex: 1000,
-                        boxSizing: 'border-box',
-                    }}
-                >
-                    {/* Left corner - Language flags */}
-                    <Box sx={{ display: 'flex', gap: '8px' }}>
-                        {Object.keys(languagesConfig).map((lang) => (
-                            <IconButton
-                                key={lang}
-                                onClick={() => handleLanguageChange(lang)}
-                                sx={{
-                                    border: selectedLanguage === lang ? '2px solid #1976d2' : 'none',
-                                    backgroundColor: selectedLanguage === lang ? '#e3f2fd' : 'transparent',
-                                    borderRadius: '50%',
-                                    transition: 'all 0.3s ease',
-                                }}
-                            >
-                                <Icon icon={languagesConfig[lang].icon} width="32" />
-                            </IconButton>
-                        ))}
-                    </Box>
-
-                    {/* Center - Name and title */}
-                    <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
-                        <Typography variant="h1" sx={{ fontSize: '24px', margin: 0 }}>
-                            {currentLanguageData.name}
-                        </Typography>
-                        <Typography variant="h2" sx={{ fontSize: '18px', margin: 0 }}>
-                            {currentLanguageData.title}
-                        </Typography>
-                    </Box>
-
-                    {/* Right corner - Download icon */}
-                    <Box sx={{ marginLeft: 'auto' }}>
-                        <IconButton
-                            color="secondary"
-                            href={currentLanguageData.pdfPath}
-                            download={currentLanguageData.downloadFileName}
+                {isMobile ? (
+                    <>
+                        {/* First topbar: Name and Title */}
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                padding: '8px 16px',
+                                backgroundColor: theme.palette.background.default,
+                                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                                position: 'fixed',
+                                top: 0,
+                                zIndex: 1000,
+                            }}
                         >
-                            <DownloadIcon />
-                        </IconButton>
-                    </Box>
-                </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography variant="h1" sx={{ fontSize: '20px', margin: 0 }}>
+                                    {currentLanguageData.name}
+                                </Typography>
+                                <Typography variant="h2" sx={{ fontSize: '16px', margin: 0 }}>
+                                    {currentLanguageData.title}
+                                </Typography>
+                            </Box>
+                        </Box>
 
-                {/* PDF Viewer */}
-                <Box sx={{ paddingTop: '80px' }}> {/* Add padding to account for the fixed topbar */}
+                        {/* Second topbar: Language buttons and Download icon */}
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '8px 16px',
+                                backgroundColor: theme.palette.background.default,
+                                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                                position: 'fixed',
+                                top: '56px',
+                                zIndex: 1000,
+                            }}
+                        >
+                            {/* Language Flags */}
+                            <Box sx={{ display: 'flex', gap: '8px' }}>
+                                {Object.keys(languagesConfig).map((lang) => (
+                                    <IconButton
+                                        key={lang}
+                                        onClick={() => handleLanguageChange(lang)}
+                                        sx={{
+                                            border: selectedLanguage === lang ? '2px solid blue' : 'none',
+                                            borderRadius: '50%',
+                                        }}
+                                    >
+                                        <Icon icon={languagesConfig[lang].icon} width="32" />
+                                    </IconButton>
+                                ))}
+                            </Box>
+
+                            {/* Download Button */}
+                            <Box>
+                                <IconButton
+                                    color="secondary"
+                                    href={currentLanguageData.pdfPath}
+                                    download={currentLanguageData.downloadFileName}
+                                >
+                                    <DownloadIcon />
+                                </IconButton>
+                            </Box>
+                        </Box>
+                    </>
+                ) : (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: '8px 16px',
+                            backgroundColor: theme.palette.background.default,
+                            borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                            position: 'fixed',
+                            top: 0,
+                            zIndex: 1000,
+                            boxSizing: 'border-box',
+                        }}
+                    >
+                        {/* Language Flags */}
+                        <Box sx={{ display: 'flex', gap: '8px' }}>
+                            {Object.keys(languagesConfig).map((lang) => (
+                                <IconButton
+                                    key={lang}
+                                    onClick={() => handleLanguageChange(lang)}
+                                    sx={{
+                                        border: selectedLanguage === lang ? '2px solid blue' : 'none',
+                                        borderRadius: '50%',
+                                    }}
+                                >
+                                        <Icon icon={languagesConfig[lang].icon} width="32" />
+                                    </IconButton>
+                                ))}
+                        </Box>
+
+                        {/* Name and Title */}
+                        <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
+                            <Typography variant="h1" sx={{ fontSize: '24px', margin: 0 }}>
+                                {currentLanguageData.name}
+                            </Typography>
+                            <Typography variant="h2" sx={{ fontSize: '18px', margin: 0 }}>
+                                {currentLanguageData.title}
+                            </Typography>
+                        </Box>
+
+                        {/* Download Button */}
+                        <Box sx={{ marginLeft: 'auto', paddingRight: '16px' }}>
+                            <IconButton
+                                color="secondary"
+                                href={currentLanguageData.pdfPath}
+                                download={currentLanguageData.downloadFileName}
+                            >
+                                <DownloadIcon />
+                            </IconButton>
+                        </Box>
+                    </Box>
+                )}
+
+                {/* PDF Viewer with margin-top for mobile */}
+                <Box sx={{ paddingTop: isMobile ? '112px' : '80px' }}> {/* Adjust padding for mobile */}
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                         <div
                             style={{

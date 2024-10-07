@@ -190,5 +190,4 @@ const App = () => {
         </ThemeProvider>
     );
 };
-
 export default App;
